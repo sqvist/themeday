@@ -23,8 +23,9 @@ if (!$elems->find('center', 0)) {
     echo "Idag firar vi : Ingenting\n";
     exit;
 }
-$themedayInnertext = $elems->find('center', 0)->innertext;
-$outputArrayed = array_values(array_filter(explode("<br />", $themedayInnertext)));
+$themedayInnertext = $elems->find('center', 0)->find('strong', 0)->innertext;
+$themedays = str_replace("Idag firar vi", "", $elems->find('center', 0)->innertext);
+$outputArrayed = array_values(array_filter(explode("<br />", $themedays)));
 $output = "";
 foreach ($outputArrayed as $i => $row) {
     if ($i == 0) {
@@ -37,7 +38,7 @@ foreach ($outputArrayed as $i => $row) {
 }
 $themeday = str_replace("...", ": ", $output);
 if (isset($argv[1]) == "irc") {
-    echo "/topic {$themeday}\n";
+    echo "/topic {$themedayInnertext}: {$themeday}\n";
     exit;
 }
 echo $themeday."\n";
